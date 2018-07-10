@@ -18,7 +18,7 @@ Command.prototype.getMachingHandler = function(argsFromQuery)
         let args = this.templates.parseArgs(argsFromQuery);
         if(args !== false)
         {
-            return {handler: this.templates[i].handler, args: args};
+            return this.templates[i].handler;
         }
     }
     return false;
@@ -205,63 +205,124 @@ const TemplatElementeGenerator = {
 
 }
 
-function loadCommandsFromFile(path)
+Command.prototype.list = {};
+
+// Loads commands and protects gives them authorization checker
+function loadCommandsFromFile(path, authorizationHandler)
 {
+    // Load file
     let commandFile = require(path);
-    if(!commandFile)
+    //Check if valid file
+    if(!(commandFile instanceof Array))
+    {
         return;
-    
+    }
+
+    // Load commands
+    for(let i=0; i<commandFile.length; i++)
+    {
+        if(authorizationHandler instanceof Function)
+            commandFile[i].authorizationHandler = authorizationHandler;
+        Command.prototype.list[commandFile[i].name] = commandFile[i];
+    }
 }
 
-const Export = {
+// Returns a Query object from a string query
+function parseQuery(query)
+{
+    let phrases = [];
 
-    // Returns a Query object from a string query
-    parseQuery: function(query)
+    let insideQuote = false;
+    let tempPhrase = "";
+    for(let i=0; i<=query.length; i++)
     {
-        let phrases = [];
+        let char = query[i];
 
-        let insideQuote = false;
-        let tempPhrase = "";
-        for(let i=0; i<=query.length; i++)
+        // Check, if a special character
+        if(char === "\\")
         {
-            let char = query[i];
-
-            // Check, if a special character
-            if(char === "\\")
+            // Check, if slash isn't on the end of the query
+            if(++i < query.length)
             {
-                // Check, if slash isn't on the end of the query
-                if(++i < query.length)
-                {
-                    tempPhrase += query[i];
-                }
-                else
-                {
-                    i--;
-                    tempPhrase += char;
-                }
-            }
-            // Check, if quote
-            else if(char === "\"")
-            {
-                insideQuote = !insideQuote;
-            }
-            // Check, if end of query or end of phrase
-            else if(i === query.length || ( char === " " && !insideQuote) )
-            {
-                phrases.push(tempPhrase);
-                tempPhrase = "";
+                tempPhrase += query[i];
             }
             else
             {
+                i--;
                 tempPhrase += char;
             }
         }
-
-        return new Query(phrases.shift(), phrases);
+        // Check, if quote
+        else if(char === "\"")
+        {
+            insideQuote = !insideQuote;
+        }
+        // Check, if end of query or end of phrase
+        else if(i === query.length || ( char === " " && !insideQuote) )
+        {
+            phrases.push(tempPhrase);
+            tempPhrase = "";
+        }
+        else
+        {
+            tempPhrase += char;
+        }
     }
 
+    return new Query(phrases.shift(), phrases);
+}
 
 
+const QueryResults = {
+    commandNotFound: "404",
+    invalidArguments: "405",
+    forbidden: "403",
+}
+
+// Executes a given query
+function executeQuery(query)
+{
+    // Get command name and argumens list
+    let parsedQuery = parseQuery(query);
+    // Get command by name
+    let command = Command.prototype.list[parsedQuery.name];
+
+    //Check, if command exists
+    if(command === undefined)
+    {
+        return QueryResults.commandNotFound;
+    }
+
+    //Check, if authorized
+    if(command.authorizationHandler instanceof Function && !command.authorizationHandler())
+    {
+        return QueryResults.forbidden;
+    }
+
+    //Check args, and get handler
+    let handler = command.getMachingHandler(parsedQuery.args);
+
+    if(!(handler instanceof Function))
+    {
+        return QueryResults.invalidArguments;
+    }
+
+    // If all good, execute handler
+    handler(parsedQuery.args);
+
+
+}
+
+module.exports = {
+
+    // Constructors
+    Command,
+    CommandTemplate,
+    CommandTemplateElement,
+
+    TemplatElementeGenerator,
+
+    // Utilities
+    loadCommandsFromFile,
+    executeQuery
 };
-
-module.exports = Export;
