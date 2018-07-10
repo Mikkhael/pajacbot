@@ -7,11 +7,10 @@ module.exports = [
                 [
                     Commands.TemplatElementeGenerator.Integer("number", true)
                 ],
-                function(args)
-                {
-                    if(args.number === undefined)
+                function (args) {
+                    if (args.number === undefined)
                         args.number = 100;
-                    console.log( Math.floor(Math.random() * args.number) + 1 );
+                    console.log(Math.floor(Math.random() * args.number) + 1);
                 },
                 "Returns a rundom integer beetween 1 and specified number, implicitly 100 (inclusive)"
             ),
@@ -20,11 +19,8 @@ module.exports = [
                     Commands.TemplatElementeGenerator.Integer("from"),
                     Commands.TemplatElementeGenerator.Integer("to")
                 ],
-                function(args)
-                {
-                    if(args.number === undefined)
-                        args.number = 100;
-                    console.log( Math.floor(Math.random() * args.number) + 1 );
+                function (args) {
+                    console.log(Math.floor(Math.random() * (args.to - args.from + 1)) + args.from);
                 },
                 "Returns a rundom integer from a specified range (inclusive)"
             )
