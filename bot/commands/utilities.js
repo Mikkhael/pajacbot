@@ -1,4 +1,5 @@
-const Commands = require("../commands.js");
+const Commands  = require("../commands.js");
+const Kernel    = require("../Kernel.js");
 
 module.exports = [
     new Commands.Command("roll",
@@ -7,10 +8,11 @@ module.exports = [
                 [
                     Commands.TemplatElementeGenerator.Integer("number", true)
                 ],
-                function (args) {
+                function (args, message) {
                     if (args.number === undefined)
                         args.number = 100;
-                    console.log(Math.floor(Math.random() * args.number) + 1);
+                    let content = Math.floor(Math.random() * args.number) + 1;
+                    Kernel.responce.simple(message, content);
                 },
                 "Returns a rundom integer beetween 1 and specified number, implicitly 100 (inclusive)"
             ),
@@ -19,8 +21,9 @@ module.exports = [
                     Commands.TemplatElementeGenerator.Integer("from"),
                     Commands.TemplatElementeGenerator.Integer("to")
                 ],
-                function (args) {
-                    console.log(Math.floor(Math.random() * (args.to - args.from + 1)) + args.from);
+                function (args, message) {
+                    let content = Math.floor(Math.random() * (args.to - args.from + 1)) + args.from;
+                    Kernel.responce.simple(message, content);
                 },
                 "Returns a rundom integer from a specified range (inclusive)"
             )
@@ -33,8 +36,8 @@ module.exports = [
                 [
                     Commands.TemplatElementeGenerator.Rest("message")
                 ],
-                function (args) {
-                    console.log(args.message);
+                function (args, message) {
+                    Kernel.responce.simple(message, args.message);
                 },
                 "Says a message"
             )

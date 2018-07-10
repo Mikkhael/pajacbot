@@ -1,3 +1,5 @@
+const Kernel = require("./kernel.js");
+
 function Query(name, args, string, startIndexes) {
     this.name = name;
     this.args = args;
@@ -269,7 +271,7 @@ const QueryResults = {
 }
 
 // Executes a given query
-function executeQuery(query) {
+function executeQuery(query, message) {
     // Get command name and argumens list
     let parsedQuery = parseQuery(query);
     // Get command by name
@@ -281,7 +283,7 @@ function executeQuery(query) {
     }
 
     //Check, if authorized
-    if (command.authorizationHandler instanceof Function && !command.authorizationHandler()) {
+    if (command.authorizationHandler instanceof Function && !command.authorizationHandler(request)) {
         return QueryResults.forbidden;
     }
 
@@ -293,26 +295,26 @@ function executeQuery(query) {
     }
 
     // If all good, execute handler
-    handler();
+    handler(message);
     return QueryResults.good;
 
 }
 
-function handleQuery(query)
+function handleQuery(query, message)
 {
-    let result = executeQuery(query);
+    let result = executeQuery(query, message);
     switch(result)
     {
         case QueryResults.forbidden:{
-            console.log("Forbidden");
+            Kernel.responce.simple(message, "Forbidden");
             break;
         }
         case QueryResults.invalidArguments:{
-            console.log("No matching command prototype");
+            Kernel.responce.simple(message, "No matching command prototype");
             break;
         }
         case QueryResults.commandNotFound:{
-            console.log("Command not found");
+            Kernel.responce.simple(message, "Command not found");
             break;
         }
     }
