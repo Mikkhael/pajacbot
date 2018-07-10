@@ -205,6 +205,14 @@ const TemplatElementeGenerator = {
 
 }
 
+function loadCommandsFromFile(path)
+{
+    let commandFile = require(path);
+    if(!commandFile)
+        return;
+    
+}
+
 const Export = {
 
     // Returns a Query object from a string query
@@ -249,7 +257,7 @@ const Export = {
             }
         }
 
-        return new Command(phrases.shift(), phrases);
+        return new Query(phrases.shift(), phrases);
     }
 
 
