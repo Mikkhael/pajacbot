@@ -1,5 +1,5 @@
 const Commands  = require("../commands.js");
-const Kernel    = require("../Kernel.js");
+const Kernel    = require("../kernel.js");
 
 module.exports = [
     new Commands.Command("roll",

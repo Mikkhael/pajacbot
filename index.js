@@ -4,8 +4,8 @@ const app       = express();
 
 const bot       = require("./bot/bot.js");
 
-const PORT = 80;
+const PORT = process.env.PORT || 3000;
 
-app.listen(80, function(){
-    console.log(process.env.TOKEN);
+app.listen(PORT, function(){
+    console.log("Listening on port " + PORT);
 });
