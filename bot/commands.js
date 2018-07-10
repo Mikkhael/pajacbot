@@ -1,6 +1,8 @@
-function Query(name, args) {
+function Query(name, args, string, startIndexes) {
     this.name = name;
     this.args = args;
+    this.string = string;
+    this.startIndexes = startIndexes;
 }
 
 function Command(name, templates, description = "") {
@@ -9,9 +11,9 @@ function Command(name, templates, description = "") {
     this.description = description;
 }
 
-Command.prototype.getMachingHandler = function (argsFromQuery) {
+Command.prototype.getMachingHandler = function (query) {
     for (let i = 0; i < this.templates.length; i++) {
-        let args = this.templates[i].parseArgs(argsFromQuery);
+        let args = this.templates[i].parseArgs(query);
         if (args !== false) {
             return this.templates[i].handler.bind(this, args);
         }
@@ -29,10 +31,18 @@ function CommandTemplate(templateElements = [], handler, description = "") {
     this.description = description;
 }
 
-CommandTemplate.prototype.parseArgs = function (argsFromQuery) {
+CommandTemplate.prototype.parseArgs = function (query) {
+    let argsFromQuery = query.args;
     let argIndex = 0;
     let args = {};
     for (let i = 0; i < this.templateElements.length; i++) {
+
+        if(this.templateElements[i].type === "rest")
+        {
+            args[this.templateElements[i].name] = query.string.slice(query.startIndexes[argIndex]);
+            return args;
+        }
+
         if (!this.templateElements[i].parseArg(args, argsFromQuery[argIndex])) {
             if (this.templateElements[i].optional) {
                 continue;
@@ -93,6 +103,9 @@ CommandTemplateElement.prototype.toPrototypeString = function () {
             ps = "[]";
         }
         return ps[0] + this.options.values.join("|") + ps[1];
+    }
+    if(this.type === "rest"){
+        return this.name + "...";
     }
 
     let ps = "<>";
@@ -205,11 +218,20 @@ function loadCommandsFromFile(path, authorizationHandler) {
 // Returns a Query object from a string query
 function parseQuery(query) {
     let phrases = [];
+    let phraseStartIndexes = [];
+    let lastPhrasesLength = 0;
 
     let insideQuote = false;
     let tempPhrase = "";
     for (let i = 0; i <= query.length; i++) {
         let char = query[i];
+
+        // Add new starting index, for Rest argument
+        if(lastPhrasesLength !== phrases.length && i !== query.length)
+        {
+            lastPhrasesLength = phrases.length;
+            phraseStartIndexes.push(i);
+        }
 
         // Check, if a special character
         if (char === "\\") {
@@ -235,8 +257,7 @@ function parseQuery(query) {
             tempPhrase += char;
         }
     }
-
-    return new Query(phrases.shift(), phrases);
+    return new Query(phrases.shift(), phrases, query, phraseStartIndexes);
 }
 
 
@@ -265,7 +286,7 @@ function executeQuery(query) {
     }
 
     //Check args, and get handler
-    let handler = command.getMachingHandler(parsedQuery.args);
+    let handler = command.getMachingHandler(parsedQuery);
 
     if (!(handler instanceof Function)) {
         return QueryResults.invalidArguments;
@@ -308,5 +329,5 @@ module.exports = {
 
     // Utilities
     loadCommandsFromFile,
-    executeQuery
+    handleQuery
 };

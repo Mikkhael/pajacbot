@@ -21,18 +21,23 @@ client.on("ready", ()=>{
     
     Commands.loadCommandsFromFile("./commands/utilities.js");
 
-    Commands.executeQuery("roll");
-    Commands.executeQuery("roll 2");
-    Commands.executeQuery("roll 1000 2000");
+    Commands.handleQuery("roll");
+    Commands.handleQuery("roll 2");
+    Commands.handleQuerycls("roll 1000 2000");
 
     console.log("Ready");
 })
 
 Commands.loadCommandsFromFile("./commands/utilities.js");
 
-Commands.executeQuery("roll");
-Commands.executeQuery("roll 2");
-Commands.executeQuery("roll 1000 2000");
+Commands.handleQuery("roll");
+Commands.handleQuery("roll 2");
+Commands.handleQuery("roll 10 -\"10");
+
+Commands.handleQuery("echo Hello");
+Commands.handleQuery("echo \"Hello\"");
+Commands.handleQuery("echo Hello World!!");
+
 
 console.log("Ready");
 

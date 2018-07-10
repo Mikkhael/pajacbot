@@ -26,5 +26,19 @@ module.exports = [
             )
         ],
         "Returns a rundom integer"
+    ),
+    new Commands.Command("echo",
+        [
+            new Commands.CommandTemplate(
+                [
+                    Commands.TemplatElementeGenerator.Rest("message")
+                ],
+                function (args) {
+                    console.log(args.message);
+                },
+                "Says a message"
+            )
+        ],
+        "Says a message"
     )
 ]
