@@ -15,7 +15,7 @@ Command.prototype.getMachingHandler = function(argsFromQuery)
 {
     for(let i=0; i<this.templates.length; i++)
     {
-        let args = this.templates.parseArgs(argsFromQuery);
+        let args = this.templates[i].parseArgs(argsFromQuery);
         if(args !== false)
         {
             return this.templates[i].handler;
@@ -62,7 +62,7 @@ CommandTemplate.prototype.parseArgs = function(argsFromQuery)
     return false;
 }
 
-CommandTemplate.prototype.toPrototypeString()
+CommandTemplate.prototype.toPrototypeString = function()
 {
     return this.templateElements.map(x => x.toPrototypeString()).join(" ");
 }

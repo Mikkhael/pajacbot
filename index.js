@@ -2,7 +2,7 @@ const express   = require("express");
 const app       = express();
 
 
-const bot       = require("./bot.js");
+const bot       = require("./bot/bot.js");
 
 const PORT = 80;
 

@@ -11,7 +11,7 @@ module.exports = [
                 {
                     if(args.number === undefined)
                         args.number = 100;
-                    console.log( Math.floor(Math.random() * number) + 1 );
+                    console.log( Math.floor(Math.random() * args.number) + 1 );
                 },
                 "Returns a rundom integer beetween 1 and specified number, implicitly 100 (inclusive)"
             ),
@@ -24,7 +24,7 @@ module.exports = [
                 {
                     if(args.number === undefined)
                         args.number = 100;
-                    console.log( Math.floor(Math.random() * number) + 1 );
+                    console.log( Math.floor(Math.random() * args.number) + 1 );
                 },
                 "Returns a rundom integer from a specified range (inclusive)"
             )
