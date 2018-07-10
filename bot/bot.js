@@ -24,6 +24,24 @@ client.on("message", (message) => {
         return;
     }
 
+
+    // Check, if pajac
+    let pajacRegExp = /kto jest pajacem/i;
+    if(pajacRegExp.test(message.content))
+    {
+        // Get all pajacable users
+        let usersList = Kernel.guild.getPajacableMembers(message.guild);
+        // CHeck, for errors
+        if(usersList !== false)
+        {
+            // get random user
+            let user = usersList.random().user;
+
+            if(user)
+                Kernel.responce.simple(message, user);
+        }
+    }
+
     // Check, if a message is a command
     if(message.content.startsWith(PREFIX)){
         let query = message.content.slice(PREFIX.length);
@@ -45,4 +63,4 @@ client.on("ready", () => {
 });
 
 ///
-client.login(process.env.TOKEN);
+client.login("NDEzMDc4MTQ1NDk1OTkwMjgz.DWTk8g.DSHi9f9sSUc95i__bkKYwlDuuBw");

@@ -42,12 +42,30 @@ const Export = {
             {
                 console.log(content);
             }
-            if(content && content.toString){
-                message.channel.send(content);
+            if(content && content.toString && content.toString() !== ""){
+                message.channel.send(content.toString());
             }
         }
-    }
+    },
     
+    guild: {
+        getMembers: function(guild){
+            if(guild && guild.available)
+            {
+                return guild.members;
+            }
+            return null;
+        },
+        getPajacableMembers: function(guild){
+            let members = this.getMembers(guild);
+            if(members)
+            {
+                return members.filter(member => !member.user.bot && member.presence.status !== "offline" );
+            }
+            return false;
+        }
+
+    }
 
 
 };
