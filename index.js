@@ -9,7 +9,7 @@ const PORT      = process.env.PORT || 3000;
 const URL       = process.env.PROJECT_DOMAIN ? `http://${process.env.PROJECT_DOMAIN}.glitch.me/` : undefined;
 
 var   pinging       = false;
-const pingInterval  = 4 * 60 * 1000;
+const pingInterval  = 3 * 60 * 1000;
 
 function sendPing()
 {

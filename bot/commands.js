@@ -279,42 +279,42 @@ function executeQuery(query, message) {
 
     //Check, if command exists
     if (command === undefined) {
-        return QueryResults.commandNotFound;
+        return {type: QueryResults.commandNotFound, message: ""};
     }
 
     //Check, if authorized
     if (command.authorizationHandler instanceof Function && !command.authorizationHandler(request)) {
-        return QueryResults.forbidden;
+        return {type: QueryResults.forbidden, message: ""};
     }
 
     //Check args, and get handler
     let handler = command.getMachingHandler(parsedQuery);
 
     if (!(handler instanceof Function)) {
-        return QueryResults.invalidArguments;
+        return {type: QueryResults.invalidArguments, command: command};
     }
 
     // If all good, execute handler
     handler(message);
-    return QueryResults.good;
+    return {type: QueryResults.good, message: ""};
 
 }
 
 function handleQuery(query, message)
 {
     let result = executeQuery(query, message);
-    switch(result)
+    switch(result.type)
     {
         case QueryResults.forbidden:{
-            Kernel.responce.simple(message, "Forbidden");
+            Kernel.responce.simple(message, "You are not permited to use this command");
             break;
         }
         case QueryResults.invalidArguments:{
-            Kernel.responce.simple(message, "No matching command prototype");
+            Kernel.responce.simple(message, "Invalid use of command. Possible usage:\n" + result.command.getPrototypeStrings().join("\n") + "\n\n Use **help " + result.command.name + "** for more info");
             break;
         }
         case QueryResults.commandNotFound:{
-            Kernel.responce.simple(message, "Command not found");
+            Kernel.responce.simple(message, "Invalid command, use **help** to se list of commands");
             break;
         }
     }

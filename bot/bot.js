@@ -59,6 +59,7 @@ client.on("ready", () => {
     // Load commands
     Commands.loadCommandsFromFile("./commands/utilities.js");
     Commands.loadCommandsFromFile("./commands/responces.js");
+    Commands.loadCommandsFromFile("./commands/help.js");
 
     console.log("Ready");
 });
