@@ -16,6 +16,14 @@ client.on("message", (message) => {
     if (message.author.bot)
         return;
 
+
+    // Check, if a message is a command
+    if(message.content.startsWith(PREFIX)){
+        let query = message.content.slice(PREFIX.length);
+        Commands.handleQuery(query, message);
+        return;
+    }
+
     // Check, if message has a preset responce
     let responce = Responces.getMatching(message.content);
     if(responce !== false)
@@ -40,12 +48,6 @@ client.on("message", (message) => {
             if(user)
                 Kernel.responce.simple(message, user);
         }
-    }
-
-    // Check, if a message is a command
-    if(message.content.startsWith(PREFIX)){
-        let query = message.content.slice(PREFIX.length);
-        Commands.handleQuery(query, message);
     }
 });
 
