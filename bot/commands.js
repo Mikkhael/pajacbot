@@ -118,8 +118,8 @@ CommandTemplateElement.prototype.toPrototypeString = function () {
 
 }
 
-const integerRegExp = /\-?[0-9]+/;
-const floatRegExp = /\-?[0-9]+(?:\.[0-9]+)?/;
+const integerRegExp = /^\-?[0-9]+$/;
+const floatRegExp = /^\-?[0-9]+(?:\.[0-9]+)?$/;
 
 const TemplateElementsValidators = {
 
