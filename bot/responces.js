@@ -23,6 +23,9 @@ const Export = {
             if(key === message){
                 let res = responces[key];
 
+                if(res === undefined)
+                    break;
+
                 // Check, if should be formated
                 if(res[0] === "!")
                 {
@@ -48,6 +51,20 @@ const Export = {
         }
 
         return false;
+    },
+    set: function(message, responce, nomod = false){
+        let responces = Kernel.getData("responcePresets");
+        
+        responces[message.toLowerCase()] = (nomod ? "!" : "") + (responce[0] === "!" ? "\\" + responce : responce);
+        Kernel.fundamental.saveData();
+    },
+    delete: function(message){
+        let responces = Kernel.getData("responcePresets");
+        
+        if(responces[message.toLowerCase()]){
+            delete responces[message.toLowerCase()];
+        }
+        Kernel.fundamental.saveData();
     }
 };
 
