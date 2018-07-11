@@ -63,4 +63,9 @@ client.on("ready", () => {
 });
 
 ///
-client.login("NDEzMDc4MTQ1NDk1OTkwMjgz.DWTk8g.DSHi9f9sSUc95i__bkKYwlDuuBw");
+if(!process.env.TOKEN)
+{
+    process.env.TOKEN = fs.readFileSync(".env").toString().slice("TOKEN=\"".length, -1);
+}
+
+client.login(process.env.TOKEN);
