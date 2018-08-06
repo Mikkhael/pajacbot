@@ -66,10 +66,4 @@ client.on("ready", () => {
     console.log("Ready");
 });
 
-///
-if(!process.env.TOKEN)
-{
-    process.env.TOKEN = fs.readFileSync(".env").toString().slice("TOKEN=\"".length, -1);
-}
-
 client.login(process.env.TOKEN);

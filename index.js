@@ -6,7 +6,7 @@ const app       = express();
 const bot       = require("./bot/bot.js");
 
 const PORT      = process.env.PORT || 3000;
-const URL       = process.env.PROJECT_DOMAIN ? `http://${process.env.PROJECT_DOMAIN}.glitch.me/` : undefined;
+const URL       = undefined //process.env.PROJECT_DOMAIN ? `http://${process.env.PROJECT_DOMAIN}.glitch.me/` : undefined;
 
 var   pinging       = false;
 const pingInterval  = 3 * 60 * 1000;
