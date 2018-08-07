@@ -77,7 +77,7 @@ client.on("ready", () => {
 		log("Cleared Logging Interval");
 	}
 	interval = setInterval(function(){
-		log("");
+		log(client.status);
 	}, 1000 * 60);
 });
 

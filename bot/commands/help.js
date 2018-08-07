@@ -23,7 +23,7 @@ module.exports = [
                     res += "Type \"**help** *command_name*\" for more info";
                     Kernel.responce.simple(message, res);
                 },
-                "Displays list of commands"
+                "Displays the list of commands"
             ),
             new Commands.CommandTemplate(
                 [

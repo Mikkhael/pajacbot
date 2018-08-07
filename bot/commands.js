@@ -314,7 +314,7 @@ function handleQuery(query, message)
             break;
         }
         case QueryResults.commandNotFound:{
-            Kernel.responce.simple(message, "Invalid command, use **help** to se list of commands");
+            Kernel.responce.simple(message, "Invalid command, use **help** to sse the list of commands");
             break;
         }
     }

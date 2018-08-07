@@ -14,7 +14,7 @@ module.exports = [
                     let content = Math.floor(Math.random() * args.number) + 1;
                     Kernel.responce.simple(message, content);
                 },
-                "Returns a rundom integer beetween 1 and specified number, implicitly 100 (inclusive)"
+                "Returns a random integer beetween 1 and specified number, implicitly 100 (inclusive)"
             ),
             new Commands.CommandTemplate(
                 [
@@ -25,10 +25,10 @@ module.exports = [
                     let content = Math.floor(Math.random() * (args.to - args.from + 1)) + args.from;
                     Kernel.responce.simple(message, content);
                 },
-                "Returns a rundom integer from a specified range (inclusive)"
+                "Returns a random integer from a specified range (inclusive)"
             )
         ],
-        "Returns a rundom integer"
+        "Returns a random integer"
     ),
     new Commands.Command("echo",
         [
