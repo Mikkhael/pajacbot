@@ -1,5 +1,6 @@
 const express   = require("express");
 const http      = require("http");
+const fs      	= require("fs");
 const app       = express();
 
 
@@ -34,4 +35,12 @@ app.get('/', function(request, responce){
 app.listen(PORT, function(){
     console.log("Listening on port " + PORT);
     sendPing();
+	
+	if(!process.env.TOKEN)
+	{
+		process.env.TOKEN = fs.readFileSync(".env").toString().slice("TOKEN=\"".length, -1);
+	}
+
+	bot.log("Bot logging in...");
+	bot.login();
 });

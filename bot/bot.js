@@ -9,8 +9,14 @@ const fs = require('fs');
 
 const PREFIX = "()";
 
-client.on("message", (message) => {
+function log(msg)
+{
+	fs.writeFile('./log.txt', (new Date()).toString() + "\t\t" + msg + "\r\n", {flag: "a"}, (err) => {
+  		if (err) throw err;
+	});
+}
 
+client.on("message", (message) => {
 
     //Check if author is a bot
     if (message.author.bot)
@@ -51,7 +57,7 @@ client.on("message", (message) => {
     }
 });
 
-
+let interval;
 
 client.on("ready", () => {
 
@@ -64,6 +70,33 @@ client.on("ready", () => {
     Commands.loadCommandsFromFile("./commands/help.js");
 
     console.log("Ready");
+	log("Ready");
+	
+	if(interval){
+		clearInterval(interval);
+		log("Cleared Logging Interval");
+	}
+	interval = setInterval(function(){
+		log("");
+	}, 1000 * 60);
 });
 
-client.login(process.env.TOKEN);
+client.on("disconnect", () => {
+	log("Disconnected")
+});
+client.on("reconnecting", () => {
+	log("Reconnecting")
+});
+client.on("resume", () => {
+	log("Resume")
+});
+
+log("Loaded");
+
+
+module.exports = {
+	login: function(){
+		client.login(process.env.TOKEN);
+	},
+	log: log
+}
