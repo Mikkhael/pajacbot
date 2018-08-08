@@ -73,11 +73,11 @@ client.on("ready", () => {
 	log("Ready");
 	
 	if(interval){
-		clearInterval(interval);
+		client.clearInterval(interval);
 		log("Cleared Logging Interval");
 	}
-	interval = setInterval(function(){
-		log(client.status);
+	interval = client.setInterval(function(){
+		log(client.user ? (client.user.presence && client.user.presence.status) : "no user");
 	}, 1000 * 60);
 });
 
@@ -89,6 +89,9 @@ client.on("reconnecting", () => {
 });
 client.on("resume", () => {
 	log("Resume")
+});
+client.on("error", (error) => {
+	log("Error\r\n" + error.message);
 });
 
 log("Loaded");
