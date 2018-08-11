@@ -306,15 +306,15 @@ function handleQuery(query, message)
     switch(result.type)
     {
         case QueryResults.forbidden:{
-            Kernel.responce.simple(message, "You are not permited to use this command");
+            Kernel.response.simple(message, "You are not permited to use this command");
             break;
         }
         case QueryResults.invalidArguments:{
-            Kernel.responce.simple(message, "Invalid use of command. Possible usage:\n" + result.command.getPrototypeStrings().join("\n") + "\n\n Use **help " + result.command.name + "** for more info");
+            Kernel.response.simple(message, "Invalid use of command. Possible usage:\n" + result.command.getPrototypeStrings().join("\n") + "\n\n Use **help " + result.command.name + "** for more info");
             break;
         }
         case QueryResults.commandNotFound:{
-            Kernel.responce.simple(message, "Invalid command, use **help** to sse the list of commands");
+            Kernel.response.simple(message, "Invalid command, use **help** to sse the list of commands");
             break;
         }
     }

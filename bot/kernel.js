@@ -36,7 +36,7 @@ const Export = {
         }
     },
 
-    responce:{
+    response:{
         simple: function(message, content){
             if(message === undefined)
             {

@@ -1,6 +1,6 @@
 const Commands  = require("../commands.js");
 const Kernel    = require("../kernel.js");
-const Responces = require("../responces.js");
+const Responces = require("../responses.js");
 
 module.exports = [
     new Commands.Command("help",
@@ -21,7 +21,7 @@ module.exports = [
                         res += row + "\n";
                     }
                     res += "Type \"**help** *command_name*\" for more info";
-                    Kernel.responce.simple(message, res);
+                    Kernel.response.simple(message, res);
                 },
                 "Displays the list of commands"
             ),
@@ -46,7 +46,7 @@ module.exports = [
 
                         }
                     }
-                    Kernel.responce.simple(message, res);
+                    Kernel.response.simple(message, res);
                 },
                 "Displays help for a *command*"
             )

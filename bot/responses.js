@@ -4,10 +4,10 @@ const Kernel = require("./kernel.js");
 const Export = {
     getMatching: function(message)
     {
-        // Get responces from database
-        let responces = Kernel.getData("responcePresets");
+        // Get responses from database
+        let responses = Kernel.getData("responsePresets");
 
-        // Set responce modifiers
+        // Set response modifiers
         let modifiers = {
             caps:       message === message.toUpperCase() && message !== message.toLowerCase(),
             capital:    message[0] === message[0].toUpperCase() && message[0].toLowerCase() !== message[0].toUpperCase(),
@@ -18,10 +18,10 @@ const Export = {
         message = message.toLowerCase();
         if(modifiers.dots) message = message.slice(0,-3);
 
-        for(let key in responces){
+        for(let key in responses){
             // Check, if matches
             if(key === message){
-                let res = responces[key];
+                let res = responses[key];
 
                 if(res === undefined)
                     break;
@@ -31,7 +31,7 @@ const Export = {
                 {
                     res = res.slice(1);
                 }
-                // else, format the responce
+                // else, format the response
                 else
                 {
                     if(modifiers.caps)
@@ -52,17 +52,17 @@ const Export = {
 
         return false;
     },
-    set: function(message, responce, nomod = false){
-        let responces = Kernel.getData("responcePresets");
+    set: function(message, response, nomod = false){
+        let responses = Kernel.getData("responsePresets");
         
-        responces[message.toLowerCase()] = (nomod ? "!" : "") + (responce[0] === "!" ? "\\" + responce : responce);
+        responses[message.toLowerCase()] = (nomod ? "!" : "") + (response[0] === "!" ? "\\" + response : response);
         Kernel.fundamental.saveData();
     },
     delete: function(message){
-        let responces = Kernel.getData("responcePresets");
+        let responses = Kernel.getData("responsePresets");
         
-        if(responces[message.toLowerCase()]){
-            delete responces[message.toLowerCase()];
+        if(responses[message.toLowerCase()]){
+            delete responses[message.toLowerCase()];
         }
         Kernel.fundamental.saveData();
     }

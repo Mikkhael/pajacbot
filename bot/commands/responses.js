@@ -1,6 +1,6 @@
 const Commands  = require("../commands.js");
 const Kernel    = require("../kernel.js");
-const Responces = require("../responces.js");
+const Responces = require("../responses.js");
 
 module.exports = [
     new Commands.Command("response",

@@ -12,7 +12,7 @@ module.exports = [
                     if (args.number === undefined)
                         args.number = 100;
                     let content = Math.floor(Math.random() * args.number) + 1;
-                    Kernel.responce.simple(message, content);
+                    Kernel.response.simple(message, content);
                 },
                 "Returns a random integer beetween 1 and specified number, implicitly 100 (inclusive)"
             ),
@@ -23,7 +23,7 @@ module.exports = [
                 ],
                 function (args, message) {
                     let content = Math.floor(Math.random() * (args.to - args.from + 1)) + args.from;
-                    Kernel.responce.simple(message, content);
+                    Kernel.response.simple(message, content);
                 },
                 "Returns a random integer from a specified range (inclusive)"
             )
@@ -37,7 +37,7 @@ module.exports = [
                     Commands.TemplatElementeGenerator.Rest("message")
                 ],
                 function (args, message) {
-                    Kernel.responce.simple(message, args.message);
+                    Kernel.response.simple(message, args.message);
                 },
                 "Says a message"
             )
