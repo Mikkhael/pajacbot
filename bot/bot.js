@@ -4,6 +4,7 @@ const client    = new Discord.Client();
 const Commands  = require("./commands.js");
 const Kernel    = require("./kernel.js");
 const Responces = require("./responses.js");
+const JejaFetcher = require('./jejaFetcher.js');
 
 const fs = require('fs');
 
@@ -48,7 +49,7 @@ client.on("message", (message) => {
 
 
 		// Check, if pajac
-		let pajacRegExp = /kto jest pajacem/i;
+		const pajacRegExp = /kto jest pajacem/i;
 		if(pajacRegExp.test(message.content))
 		{
 			// Get all pajacable users
@@ -62,7 +63,22 @@ client.on("message", (message) => {
 				if(user)
 					Kernel.response.simple(message, user);
 			}
+			return;
 		}
+		
+		
+		////// Other utilities //////
+		
+		// jeja Meme
+		const memeRegExp = /słaby mem/i;
+		if(memeRegExp.test(message.content))
+		{
+			JejaFetcher.fetchRandomMemeLink({}, function(link){
+				Kernel.response.attachment(message, link);
+			});
+			return;
+		}
+		
 	}
     
 });
@@ -93,7 +109,7 @@ client.on("ready", () => {
 		else{
 			log(client.user ? (client.user.presence && client.user.presence.status) : "no user");
 		}
-	}, 1000 * 60);
+	}, 1000 * 60 * 60);
 });
 
 client.on("disconnect", () => {

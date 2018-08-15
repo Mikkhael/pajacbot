@@ -1,4 +1,5 @@
 const fs = require("fs");
+const Discord = require("discord.js");
 
 var DATA = {};
 
@@ -44,6 +45,15 @@ const Export = {
             }
             if(content && content.toString && content.toString() !== ""){
                 message.channel.send(content.toString());
+            }
+        },
+        attachment: function(message, link){
+            if(message === undefined)
+            {
+                console.log(link);
+            }
+            if(link && link.toString && link.toString() !== ""){
+                message.channel.send(new Discord.Attachment(link.toString()));
             }
         }
     },
