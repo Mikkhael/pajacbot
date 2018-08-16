@@ -55,6 +55,15 @@ const Export = {
             if(link && link.toString && link.toString() !== ""){
                 message.channel.send(new Discord.Attachment(link.toString()));
             }
+        },
+        embed: function(message, options){
+            if(message === undefined)
+            {
+                console.log(options);
+            }
+            if(typeof(options) === "object"){
+                message.channel.send(new Discord.RichEmbed(options));
+            }
         }
     },
     

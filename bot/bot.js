@@ -4,7 +4,9 @@ const client    = new Discord.Client();
 const Commands  = require("./commands.js");
 const Kernel    = require("./kernel.js");
 const Responces = require("./responses.js");
+
 const JejaFetcher = require('./jejaFetcher.js');
+const RedditFetcher = require('./redditFetcher.js');
 
 const fs = require('fs');
 
@@ -70,15 +72,19 @@ client.on("message", (message) => {
 		////// Other utilities //////
 		
 		// jeja Meme
-		const memeRegExp = /słaby mem/i;
-		if(memeRegExp.test(message.content))
-		{
-			JejaFetcher.fetchRandomMemeLink({}, function(link){
-				Kernel.response.attachment(message, link);
-			});
-			return;
+		const memeRegExp = /(dobry|słaby) mem/ig;
+		let memeMatch;
+		while(memeMatch = memeRegExp.exec(message.content)){
+			if(memeMatch[1] === "dobry"){
+				RedditFetcher.fetchImage("memes", {}, function(url){
+					Kernel.response.embed(message, {image: {url: url}});
+				});
+			}else{
+				JejaFetcher.fetchImage({}, function(url){
+					Kernel.response.attachment(message, url);
+				});
+			}
 		}
-		
 	}
     
 });
