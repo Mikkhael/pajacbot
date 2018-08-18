@@ -1,6 +1,6 @@
 const Commands  = require("../commands.js");
 const Kernel    = require("../kernel.js");
-const SafeFetcher = require("../safebouruFetcher.js");
+const SafeFetcher = require("../fetchers/safebouruFetcher.js");
 
 module.exports = [
     new Commands.Command("safe",

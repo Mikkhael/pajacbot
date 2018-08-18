@@ -5,9 +5,9 @@ const Commands  = require("./commands.js");
 const Kernel    = require("./kernel.js");
 const Responces = require("./responses.js");
 
-const JejaFetcher = require('./jejaFetcher.js');
-const RedditFetcher = require('./redditFetcher.js');
-const SafeFetcher = require('./safebouruFetcher.js');
+const JejaFetcher = require('./fetchers/jejaFetcher.js');
+const RedditFetcher = require('./fetchers/redditFetcher.js');
+const SafeFetcher = require('./fetchers/safebouruFetcher.js');
 
 const fs = require('fs');
 
