@@ -15,12 +15,19 @@ function getPostsCount(tags = [], callback){
         if(err){
             console.log(" ---- ERROR 1----");
             console.log(err);
-            callback(undefined);
+            callback(0);
             return;
         }
-        callback(postCountRegExp.exec(body)[1]);
+        let result = postCountRegExp.exec(body);
+        if(!result){
+            callback(0);
+            return;
+        }
+        callback(+result[1]);
     });
 }
+
+const maxPageCount = 3000;
 
 function getImage(tags, callback){
     if(tags.join === undefined){
@@ -28,6 +35,15 @@ function getImage(tags, callback){
     }
     
     getPostsCount(tags, function(count){
+        
+        if(!count){
+            callback(undefined);
+            return;
+        }
+        
+        if(count > maxPageCount){
+            count = maxPageCount;
+        }
         
         let imageIndex = Math.floor(Math.random()*count);
         request(getRequestUrl(1, imageIndex, tags), function(err, res, body){
@@ -38,7 +54,12 @@ function getImage(tags, callback){
                 return;
              }
              
-             callback("https:"+fileUrlRegExp.exec(body)[1]);
+             let result = fileUrlRegExp.exec(body);
+             if(!result){
+                 callback(undefined);
+                 return;
+             }
+             callback("https:"+result[1]);
         });
         
     });
