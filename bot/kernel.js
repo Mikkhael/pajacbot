@@ -56,6 +56,15 @@ const Export = {
                 message.channel.send(new Discord.Attachment(link.toString()));
             }
         },
+        embedImageUrl: function(message, link){
+            if(message === undefined)
+            {
+                console.log(options);
+            }
+            if(typeof(link) == "string"){
+                message.channel.send(new Discord.RichEmbed({image: {url: link}}));
+            }
+        },
         embed: function(message, options){
             if(message === undefined)
             {

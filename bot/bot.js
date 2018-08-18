@@ -7,6 +7,7 @@ const Responces = require("./responses.js");
 
 const JejaFetcher = require('./jejaFetcher.js');
 const RedditFetcher = require('./redditFetcher.js');
+const SafeFetcher = require('./safebouruFetcher.js');
 
 const fs = require('fs');
 
@@ -71,7 +72,7 @@ client.on("message", (message) => {
 		
 		////// Other utilities //////
 		
-		// jeja Meme
+		// Meme
 		const memeRegExp = /(dobry|słaby) mem/ig;
 		let memeMatch;
 		while(memeMatch = memeRegExp.exec(message.content)){
@@ -84,6 +85,20 @@ client.on("message", (message) => {
 					Kernel.response.attachment(message, url);
 				});
 			}
+		}
+		
+		// Safebouru catgirls
+		const catgirlRegExp = /(?:(?:kobieta|dziewczyna|dziewczę|laska|loszka|dziołcha)[ \-\_]?kot|cat[ \-\_]?(?:girl|woman)|neko)/ig;
+		while(catgirlRegExp.exec(message.content)){
+			let tags = [
+				['catgirl'],
+				['cat_girl'],
+				['cat_ears', 'cat_tail']
+			];
+			let tag = tags[Math.floor(Math.random()*tags.length)];
+			SafeFetcher.getImage(tag, function(image){
+				Kernel.response.embedImageUrl(message, image);
+			})
 		}
 	}
     
