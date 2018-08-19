@@ -103,7 +103,7 @@ client.on("message", (message) => {
 		}
 		
 		// Safebouru catgirls
-		const catgirlRegExp = /(?:(?:kobieta|zmywara|zmywarka|pralka|dziewczyna|dziwczynka|dziewczę|laska|loszka|dziołcha|dziołszka|dziewka|niewiasta|białogłowa)[ \-\_]?(?:kot|kotek)|(?:cat|kitty)[ \-\_]?(?:girl|woman)|neko)/ig;
+		const catgirlRegExp = /(?:(?:kobieta|zmywara|zmywarka|pralka|dziewczyna|dziwczynka|dziewczę|laska|loszka|dziołcha|dziołszka|dziewka|niewiasta|białogłowa)[ \-\_]?(?:kot|kotek|kocur|kocurek|kotka|koteczek)|(?:cat|kitty)[ \-\_]?(?:girl|woman)|neko)/ig;
 		while(catgirlRegExp.exec(message.content)){
 			let tags = [
 				['catgirl'],
