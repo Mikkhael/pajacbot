@@ -25,7 +25,6 @@ client.on("message", (message) => {
     //Check if author is a bot
     if (message.author.bot)
         return;
-
 	
 	// Check, if message is an image
 	if(message.attachments && message.attachments.array().length > 0){
@@ -66,6 +65,22 @@ client.on("message", (message) => {
 				if(user)
 					Kernel.response.simple(message, user);
 			}
+			return;
+		}
+		
+		
+		/// Check, if channel is set as Safebouru overload
+		if(Kernel.getChannelData(message.channel.id).safebouruOverloadEnabled){
+			let tags = message.content.split(/ +/g);
+			
+			for(let i=0; i<tags.length; i++){
+				SafeFetcher.getImage([tags[i]], function(imageUrl){
+					if(imageUrl){
+						Kernel.response.embed(message, {description: tags[i], image: {url: imageUrl}});
+					}
+				});
+			}
+			
 			return;
 		}
 		

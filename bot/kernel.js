@@ -9,7 +9,28 @@ const Export = {
             DATA[index] = {};
         return DATA[index];
     },
-
+    
+    clearData: function(index){
+        if(DATA[index] !== undefined){
+            delete DATA[index];
+        }
+    },
+    
+    getChannelData: function(channelID){
+        let data = this.getData("channelData");
+        if(data[channelID] === undefined){
+            data[channelID] = {};
+        }
+        return data[channelID];
+    },
+    
+    clearChannelData: function(channelID){
+        let data = this.getData("channelData");
+        if(data[channelID] !== undefined){
+            delete data[channelID];
+        }
+    },
+    
     fundamental:{
         loadData: function(){
             let data = fs.readFileSync(__dirname + "/DATA.json", function(err){

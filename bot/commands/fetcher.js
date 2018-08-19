@@ -28,5 +28,26 @@ module.exports = [
             )
         ],
         "Sends a random image from safebouru"
+    ),
+    new Commands.Command("safebouru_overload",
+        [
+            new Commands.CommandTemplate(
+                [],
+                function (args, message) {
+                    let isEnabled = Kernel.getChannelData(message.channel.id).safebouruOverloadEnabled;
+                    if(isEnabled)
+                    {
+                        Kernel.getChannelData(message.channel.id).safebouruOverloadEnabled = undefined;
+                        Kernel.response.simple(message, "Safebouru overload is disabled.");
+                    }else{
+                        Kernel.getChannelData(message.channel.id).safebouruOverloadEnabled = true;
+                        Kernel.response.simple(message, "Safebouru overload is enabled.");
+                    }
+                    Kernel.fundamental.saveData();
+                },
+                "Enables or disables safebouru overload.\nIf enabled, every word in the messeges send in this channel will be considered as a tag for a safebouru image."
+            )
+        ],
+        "Enables or disables safebouru overload"
     )
 ]
