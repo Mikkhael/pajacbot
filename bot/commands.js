@@ -41,6 +41,12 @@ CommandTemplate.prototype.parseArgs = function (query) {
 
         if(this.templateElements[i].type === "rest")
         {
+            if(!query.startIndexes[argIndex]){
+                if(this.templateElements[i].optional){
+                    return args;
+                }
+                return false;
+            }
             args[this.templateElements[i].name] = query.string.slice(query.startIndexes[argIndex]);
             return args;
         }

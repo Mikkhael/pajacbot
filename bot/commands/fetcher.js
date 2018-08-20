@@ -1,6 +1,7 @@
 const Commands  = require("../commands.js");
 const Kernel    = require("../kernel.js");
 const SafeFetcher = require("../fetchers/safebooruFetcher.js");
+const NekoFetcher = require("../fetchers/nekoFetcher.js");
 
 module.exports = [
     new Commands.Command("safe",
@@ -45,5 +46,31 @@ module.exports = [
             )
         ],
         "Enables or disables safebooru overload"
+    ),
+    new Commands.Command("do",
+        [
+            new Commands.CommandTemplate(
+                [
+                    new Commands.TemplatElementeGenerator.Enum("type", Object.keys(NekoFetcher.ActionsEndpoints)),
+                    new Commands.TemplatElementeGenerator.Rest("object", true)
+                ],
+                function (args, message) {
+                    const subject = message.author.toString();
+                    const action  = args.type + (args.type[args.type.length-1] === 's' ? "es" : "s");
+                    const object  = args.object || "";
+                    
+                    const description = subject + " " + action + " " + object;
+                    
+                    NekoFetcher.getAction(args.type, function(action){
+                        action.send(message.channel, undefined, {description: description});
+                        if(message.deletable){
+                            message.delete();
+                        }
+                    });
+                },
+                "Performes an specified action upon a given *object*, for example, an user."
+            )
+        ],
+        "Performes an action, accompanied with an appropiate gif."
     )
 ]

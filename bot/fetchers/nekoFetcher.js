@@ -113,11 +113,60 @@ function getImage(type, callback){
     });
 }
 
+function Action(url, type){
+    this.url = url;
+    this.type = type;
+}
+
+Action.prototype.getEmbedMessage = function(){
+    let embed = {};
+    
+    if(!this.url || !this.type){
+        return null;
+    }
+    
+    embed.image = {url: this.url};
+    return embed;
+}
+
+Action.prototype.send = function(channel, fallbackMessage, embedOverride){
+    let embed = this.getEmbedMessage();
+    if(embed){
+        if(embedOverride){
+            Object.assign(embed, embedOverride);
+        }
+        channel.send(new Discord.RichEmbed(embed));
+        return;
+    }
+    if(fallbackMessage){
+        channel.send(fallbackMessage);
+    }
+}
+
+function getAction(type, callback){
+    if(ActionsEndpoints[type] === undefined){
+        callback(new Action());
+        return;
+    }
+    
+    request(baseURL + ActionsEndpoints[type],function(err, res, body){
+        if(err){
+            callback(new Action());
+            console.log(err);
+            return;
+        }
+        
+        let url = JSON.parse(body).url;
+        callback(new Action(url, type));
+    });
+}
+
 module.exports = {
+    Image,
+    getImage,
+    Action,
+    getAction,
     ImageEndpoints,
     ActionsEndpoints,
-    UtilityEndpoints,
-    
-    Image,
-    getImage
+    UtilityEndpoints
 }
