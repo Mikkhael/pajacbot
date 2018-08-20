@@ -57,7 +57,7 @@ const Export = {
             });
         }
     },
-
+    
     response:{
         simple: function(message, content){
             if(message === undefined)

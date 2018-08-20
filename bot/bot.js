@@ -7,7 +7,7 @@ const Responces = require("./responses.js");
 
 const JejaFetcher = require('./fetchers/jejaFetcher.js');
 const RedditFetcher = require('./fetchers/redditFetcher.js');
-const SafeFetcher = require('./fetchers/safebouruFetcher.js');
+const SafeFetcher = require('./fetchers/safebooruFetcher.js');
 
 const fs = require('fs');
 
@@ -69,15 +69,13 @@ client.on("message", (message) => {
 		}
 		
 		
-		/// Check, if channel is set as Safebouru overload
-		if(Kernel.getChannelData(message.channel.id).safebouruOverloadEnabled){
+		/// Check, if channel is set as Safebooru overload
+		if(Kernel.getChannelData(message.channel.id).safebooruOverloadEnabled){
 			let tags = message.content.split(/ +/g);
 			
 			for(let i=0; i<tags.length; i++){
-				SafeFetcher.getImage([tags[i]], function(imageUrl){
-					if(imageUrl){
-						Kernel.response.embed(message, {description: tags[i], image: {url: imageUrl}});
-					}
+				SafeFetcher.getImage([tags[i]], function(image){
+					image.send(message.channel);
 				});
 			}
 			
@@ -91,7 +89,7 @@ client.on("message", (message) => {
 		const memeRegExp = /(dobry|słaby) mem/ig;
 		let memeMatch;
 		while(memeMatch = memeRegExp.exec(message.content)){
-			if(memeMatch[1] === "dobry"){
+			if(memeMatch[1].toLocaleLowerCase() === "dobry"){
 				RedditFetcher.fetchImage("memes", {}, function(url){
 					Kernel.response.embed(message, {image: {url: url}});
 				});
@@ -102,8 +100,8 @@ client.on("message", (message) => {
 			}
 		}
 		
-		// Safebouru catgirls
-		const catgirlRegExp = /(?:(?:kobieta|zmywara|zmywarka|pralka|dziewczyna|dziwczynka|dziewczę|laska|loszka|dziołcha|dziołszka|dziewka|niewiasta|białogłowa)[ \-\_]?(?:kot|kotek|kocur|kocurek|kotka|koteczek)|(?:cat|kitty)[ \-\_]?(?:girl|woman)|neko)/ig;
+		// Safebooru catgirls
+		const catgirlRegExp = /(?:(?:kobieta|zmywara|zmywarka|pralka|dziewczyna|dziwczynka|dziewczę|laska|loszka|dziołcha|dziołszka|dziewka|niewiasta|białogłowa)[ \-\_]?(?:kot|kotek|kocur|kocurek|kotka|koteczek|kocica|kicia)|(?:cat|kitty)[ \-\_]?(?:girl|woman)|neko)/ig;
 		while(catgirlRegExp.exec(message.content)){
 			let tags = [
 				['catgirl'],
@@ -112,7 +110,7 @@ client.on("message", (message) => {
 			];
 			let tag = tags[Math.floor(Math.random()*tags.length)];
 			SafeFetcher.getImage(tag, function(image){
-				Kernel.response.embedImageUrl(message, image);
+				image.send(message.channel, "No images found \:\(", {title: "(^._.^)ﾉ"});
 			})
 		}
 	}
