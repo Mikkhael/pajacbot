@@ -101,7 +101,7 @@ client.on("message", (message) => {
 		}
 		
 		// Safebooru catgirls
-		const catgirlRegExp = /(?:(?:kobieta|zmywara|zmywarka|pralka|dziewczyna|dziwczynka|dziewczę|laska|loszka|dziołcha|dziołszka|dziewka|niewiasta|białogłowa)[ \-\_]?(?:kot|kotek|kocur|kocurek|kotka|koteczek|kocica|kicia)|(?:cat|kitty)[ \-\_]?(?:girl|woman)|neko)/ig;
+		const catgirlRegExp = /(?:(?:kobieta|zmywara|zmywarka|pralka|dziewczyna|dziewczynka|dziewczę|laska|loszka|dziołcha|dziołszka|dziewka|niewiasta|białogłowa|samica|panna|panienka|pannica)[ \-\_]?(?:kot|kotek|kocur|kocurek|koteczek|kiciak|kociak|kotuś)|(?:cat|kitty|kitten)[ \-\_]?(?:girl|woman|lady|female|babe|chick|miss|damsel|madam)|neko|kocica|kicia|kotka|pussy)/ig;
 		while(catgirlRegExp.exec(message.content)){
 			let tags = [
 				['catgirl'],
