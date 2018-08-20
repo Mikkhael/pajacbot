@@ -8,6 +8,7 @@ const Responces = require("./responses.js");
 const JejaFetcher = require('./fetchers/jejaFetcher.js');
 const RedditFetcher = require('./fetchers/redditFetcher.js');
 const SafeFetcher = require('./fetchers/safebooruFetcher.js');
+const NekoFetcher = require('./fetchers/nekoFetcher.js');
 
 const fs = require('fs');
 
@@ -101,17 +102,43 @@ client.on("message", (message) => {
 		}
 		
 		// Safebooru catgirls
-		const catgirlRegExp = /(?:(?:kobieta|zmywara|zmywarka|pralka|dziewczyna|dziewczynka|dziewczę|laska|loszka|dziołcha|dziołszka|dziewka|niewiasta|białogłowa|samica|panna|panienka|pannica)[ \-\_]?(?:kot|kotek|kocur|kocurek|koteczek|kiciak|kociak|kotuś)|(?:cat|kitty|kitten)[ \-\_]?(?:girl|woman|lady|female|babe|chick|miss|damsel|madam)|neko|kocica|kicia|kotka|pussy)/ig;
-		while(catgirlRegExp.exec(message.content)){
-			let tags = [
-				['catgirl'],
-				['cat_girl'],
-				['cat_ears', 'cat_tail']
-			];
-			let tag = tags[Math.floor(Math.random()*tags.length)];
-			SafeFetcher.getImage(tag, function(image){
-				image.send(message.channel, "No images found \:\(", {title: "(^._.^)ﾉ"});
-			})
+		const catgirlRegExp = /(?:(quality|koala tea|jakościowy|jakościowa) )?(?:(?:kobieta|zmywara|zmywarka|pralka|dziewczyna|dziewczynka|dziewczę|laska|loszka|dziołcha|dziołszka|dziewka|niewiasta|białogłowa|samica|panna|panienka|pannica)[ \-\_]?(?:kot|kotek|kocur|kocurek|koteczek|kiciak|kociak|kotuś)|(?:cat|kitty|kitten)[ \-\_]?(?:girl|woman|lady|female|babe|chick|miss|damsel|madam)|neko|kocica|kicia|kotka|pussy)/ig;
+		let catgirlMatch;
+		while(catgirlMatch = catgirlRegExp.exec(message.content)){
+			
+			if(!catgirlMatch[1]){
+				
+				let types = 	["neko", "fox", "kemonomimi", "gif", "cat"];
+				let chances = 	[3, 6, 9, 14];
+				let random = 	Math.random()*15;
+				
+				let type = 		types[chances.length];			
+				for(let i=0; i<chances.length; i++){
+					if(random < chances[i]){
+						type = types[i];
+						break;
+					}
+				}
+				
+				NekoFetcher.getImage(type, function(image){
+					image.send(message.channel, "Something went wrong \:\(. No kitty fot this time");
+				});
+				
+			}else{
+				
+				let tags = [
+					['catgirl'],
+					['cat_girl'],
+					['cat_ears', 'cat_tail']
+				];
+				let tag = tags[Math.floor(Math.random()*tags.length)];
+				SafeFetcher.getImage(tag, function(image){
+					image.send(message.channel, "No images found \:\(", {title: "(^._.^)ﾉ"});
+				});
+				
+			}
+			
+			
 		}
 	}
     
