@@ -38,6 +38,9 @@ module.exports = [
                 ],
                 function (args, message) {
                     Kernel.response.simple(message, args.message);
+                    if(message.deletable){
+                        message.delete();
+                    }
                 },
                 "Says a message"
             )

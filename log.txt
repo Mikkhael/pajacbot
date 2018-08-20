@@ -1,0 +1,6 @@
+Mon Aug 20 2018 23:11:58 GMT+0200 (Środkowoeuropejski czas letni)		Loaded
+Mon Aug 20 2018 23:11:58 GMT+0200 (Środkowoeuropejski czas letni)		Bot logging in...
+Mon Aug 20 2018 23:12:01 GMT+0200 (Środkowoeuropejski czas letni)		Ready
+Mon Aug 20 2018 23:15:20 GMT+0200 (Środkowoeuropejski czas letni)		Loaded
+Mon Aug 20 2018 23:15:20 GMT+0200 (Środkowoeuropejski czas letni)		Bot logging in...
+Mon Aug 20 2018 23:15:21 GMT+0200 (Środkowoeuropejski czas letni)		Ready
