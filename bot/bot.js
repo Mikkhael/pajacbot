@@ -77,7 +77,7 @@ client.on("message", (message) => {
 			for(let i=0; i<tags.length; i++){
 				SafeFetcher.getImage([tags[i]], function(image){
 					image.send(message.channel);
-				});
+				}, 20);
 			}
 			
 			return;
@@ -108,9 +108,9 @@ client.on("message", (message) => {
 			
 			if(!catgirlMatch[1]){
 				
-				let types = 	["neko", "fox", "kemonomimi", "gif", "cat"];
-				let chances = 	[3, 6, 9, 14];
-				let random = 	Math.random()*15;
+				let types = 	["neko", "fox", "kemonomimi", "gif", "cat", "lizard"];
+				let chances = 	[30, 60, 90, 140, 150];
+				let random = 	Math.random()*151;
 				
 				let type = 		types[chances.length];			
 				for(let i=0; i<chances.length; i++){

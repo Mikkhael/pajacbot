@@ -73,6 +73,11 @@ Image.prototype.getEmbedMessage = function(){
             embed.title = "｡＾･ｪ･＾｡";
             break;
         }
+        case "lizard" :{
+            embed.title = "...(^‥^) Wut?";
+            embed.color = 0x00ff00;
+            break;
+        }
         default :{
             embed.title = this.type[0].toUpperCase() + this.type.slice(1);
         }

@@ -95,14 +95,14 @@ Image.prototype.send = function(channel, fallbackMessage, embedOverride = {}){
 
 const maxPageCount = 3000;
 
-function getImage(tags, callback){
+function getImage(tags, callback, minCount = 0){
     if(tags.join === undefined){
         tags = [tags];
     }
     
     getPostsCount(tags, function(count){
         
-        if(!count){
+        if(!count || count < minCount){
             callback(new Image());
             return;
         }
